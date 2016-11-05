@@ -1,6 +1,7 @@
 module Game where
 
 import Common
+import Shuffler
 import System.Console.ANSI (Color(Black, Red, Green, Yellow, Blue, Magenta, Cyan, White))
 
 initGame :: Int -> State
@@ -12,10 +13,12 @@ initGame n = State { players = generateHumanPlayers n,
 -- MY CODES----------------------------------------------------------
 generateHumanPlayers :: Int -> [Player]
 generateHumanPlayers n 
-		| (n > 0) = [HPlayer {name = "Player" ++ show n, hand = [Card {color = Black, value = One}]}] ++ generateHumanPlayers (n-1)
+		| (n > 0) = [HPlayer {name = "Player" ++ show n, hand = [ ]}] ++ generateHumanPlayers (n-1)
 		| otherwise = [ ]
 ---------------------------------------------------------------------
 
 -- TODO: Implement a method to setup the game
 setupGame :: State -> IO State
-setupGame gs = return (gs)
+setupGame gs = do
+				curr <- shuffleDeck gs
+				return (dealCards(curr))
