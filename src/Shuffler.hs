@@ -3,6 +3,7 @@ module Shuffler where
 import Common
 import System.Random
 import System.Random.Shuffle
+import Data.List
 
 shuffleDeck :: State -> IO State
 -- TODO: Implement a random shuffling algorithm
@@ -36,10 +37,10 @@ dealCards state@State{
 dealp :: Deck -> [Player] -> [Player]
 dealp [] _ = []
 dealp _ [] = []
-dealp (c1:c2:cs) (p:ps) = p{hand=[c1,c2]} : dealp cs ps
+dealp (c1:c2:c3:c4:c5:cs) (p:ps) = p{hand=[c1,c2,c3,c4,c5]} : dealp cs ps
 
 dealc :: Deck -> [Player] -> Deck
-dealc [] _ = []
-dealc deck [] = deck
-dealc (c1:c2:cs) (p:ps) = dealc cs ps
+dealc [ ] _ = [ ]
+dealc deck [ ] = deck
+dealc deck (p:ps) = dealc (drop 5 deck) ps
 							
