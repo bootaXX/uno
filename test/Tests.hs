@@ -68,12 +68,12 @@ gameSpecs = describe "Game" $ do
       --pendingWith "Implement the setupGame function"
       let gs = initGame 4
       gs' <- setupGame gs
-      length (deck gs') `shouldBe` 88
+      and (map (\p -> (length $ hand p) == initialCardCount) $ players gs') `shouldBe` True
     it "should distribute cards to players" $ do
       --pendingWith "Implement the setupGame function"
       let gs = initGame 4
       gs' <- setupGame gs
-      (name $ head $ players $ gs') `shouldBe` "Player4"
+      length (deck gs') `shouldBe` 80
 
 -- Test data fixtures
 --
