@@ -7,9 +7,6 @@ import System.Console.ANSI (Color(Black, Red, Green, Yellow, Blue, Magenta, Cyan
 initialCardCount :: Int
 initialCardCount = 7
 
-initialCardCount :: Int
-initialCardCount = 7
-
 initGame :: Int -> State
 
 -- TODO: Implement a method to initialize a new game given n players

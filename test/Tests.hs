@@ -43,11 +43,7 @@ commonSpecs = describe "Common" $ do
 shufflerSpecs :: Spec
 shufflerSpecs = describe "Shuffler" $ do
   it "Perform shuffling of cards" $ do
-<<<<<<< HEAD
     --pendingWith "Implement shuffleDeck function"
-=======
-    pendingWith "Implement shuffleDeck function"
->>>>>>> refs/remotes/UPCebu-CMSC176/master
     let gs = State { players = [ ], deck = fullDeck, d_stack = [ ] }
     gs' <- shuffleDeck gs
     (deck gs') `shouldNotBe` (deck gs)
@@ -56,7 +52,6 @@ gameSpecs :: Spec
 gameSpecs = describe "Game" $ do
   describe "initGame" $ do
     it "should create 4 players" $ do
-<<<<<<< HEAD
       --pendingWith "Implement the initGame function"
       let gs = initGame 4
       length (players gs) `shouldBe` 4
@@ -66,41 +61,21 @@ gameSpecs = describe "Game" $ do
       length (deck gs) `shouldBe` 108
     it "should initialize discard pile to empty" $ do
       --pendingWith "Implement the initGame function"
-=======
-      pendingWith "Implement the initGame function"
-      let gs = initGame 4
-      length (players gs) `shouldBe` 4
-    it "should initialize the deck with 108 cards" $ do
-      pendingWith "Implement the initGame function"
-      let gs = initGame 4
-      length (deck gs) `shouldBe` 108
-    it "should initialize discard pile to empty" $ do
-      pendingWith "Implement the initGame function"
->>>>>>> refs/remotes/UPCebu-CMSC176/master
       let gs = initGame 4
       length (d_stack gs) `shouldBe` 0
   describe "setupGame" $ do
     it "should shuffle the deck" $ do
-<<<<<<< HEAD
       --pendingWith "Implement the setupGame function"
-      let gs = initGame 4
-      gs' <- setupGame gs
-      and (map (\p -> (length $ hand p) == initialCardCount) $ players gs') `shouldBe` True
-    it "should distribute cards to players" $ do
-      --pendingWith "Implement the setupGame function"
-=======
-      pendingWith "Implement the setupGame function"
       let gs = initGame 4
       gs' <- shuffleDeck gs
       (deck gs') `shouldNotBe` (deck gs)
     it "should distribute cards to players" $ do
-      pendingWith "Implement the setupGame function"
+      --pendingWith "Implement the setupGame function"
       let gs = initGame 4
       gs' <- setupGame gs
       and (map (\p -> (length $ hand p) == initialCardCount) $ players gs') `shouldBe` True
     it "should remove cards from deck" $ do
-      pendingWith "Implement the setupGame function"
->>>>>>> refs/remotes/UPCebu-CMSC176/master
+      --pendingWith "Implement the setupGame function"
       let gs = initGame 4
       gs' <- setupGame gs
       length (deck gs') `shouldBe` 80
