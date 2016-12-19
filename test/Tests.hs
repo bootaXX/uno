@@ -50,87 +50,49 @@ commonSpecs = describe "Common" $ do
     it "should ONLY take 1 blueThree card" $ do
       let (h1, h2) = [ blueThree ] `takeCards` testDeck
       h2 `shouldBe` [ redOne, yellowTwo, blueThree, whiteFour ]
-    --it "should take exploding and defuse cards" $ do
-    --  let (h1, h2) = [ ExplodingCard, DefuseCard ] `takeCards` defusableHand
-    --  h1 `shouldBe` [ ExplodingCard, DefuseCard ]
-    --it "should ONLY take exploding and defuse cards" $ do
-    --  let (h1, h2) = [ ExplodingCard, DefuseCard ] `takeCards` defusableHand
-    --  h2 `shouldBe` [ BeardCat, RainbowCat, AttackCard ]
 
 shufflerSpecs :: Spec
 shufflerSpecs = describe "Shuffler" $ do
   it "Perform shuffling of cards" $ do
-<<<<<<< HEAD
     --pendingWith "Implement shuffleDeck function"
     let gs = State { players = [ ], deck = fullDeck, d_stack = [ ] }
-=======
-    pendingWith "Implement shuffleDeck function"
-    let gs = testState
->>>>>>> refs/remotes/UPCebu-CMSC176/master
     gs' <- shuffleDeck gs
     (deck gs') `shouldNotBe` (deck gs)
 
 gameSpecs :: Spec
 gameSpecs = describe "Game" $ do
   describe "initGame" $ do
-    it "should create 4 players" $ do
-<<<<<<< HEAD
+
       --pendingWith "Implement the initGame function"
-      let gs = initGame 4
-      length (players gs) `shouldBe` 4
-    it "should initialize the deck with 108 cards" $ do
-      --pendingWith "Implement the initGame function"
-      let gs = initGame 4
-      length (deck gs) `shouldBe` 108
-    it "should initialize discard pile to empty" $ do
-      --pendingWith "Implement the initGame function"
-      let gs = initGame 4
-=======
-      pendingWith "Implement the initGame function"
       let gs = initGame numberOfTestPlayers
       length (players gs) `shouldBe` 4
     it "should initialize the deck with 108 cards" $ do
-      pendingWith "Implement the initGame function"
+      --pendingWith "Implement the initGame function"
       let gs = initGame numberOfTestPlayers
       length (deck gs) `shouldBe` 108
     it "should initialize discard pile to empty" $ do
-      pendingWith "Implement the initGame function"
+      --pendingWith "Implement the initGame function"
       let gs = initGame numberOfTestPlayers
->>>>>>> refs/remotes/UPCebu-CMSC176/master
       length (d_stack gs) `shouldBe` 0
 
   describe "setupGame" $ do
     it "should shuffle the deck" $ do
-<<<<<<< HEAD
       --pendingWith "Implement the setupGame function"
-      let gs = initGame 4
-      gs' <- shuffleDeck gs
-      (deck gs') `shouldNotBe` (deck gs)
-    it "should distribute cards to players" $ do
-      --pendingWith "Implement the setupGame function"
-      let gs = initGame 4
-      gs' <- setupGame gs
-      and (map (\p -> (length $ hand p) == initialCardCount) $ players gs') `shouldBe` True
-    it "should remove cards from deck" $ do
-      --pendingWith "Implement the setupGame function"
-      let gs = initGame 4
-=======
-      pendingWith "Implement the setupGame function"
       let gs = initGame numberOfTestPlayers
       gs' <- shuffleDeck gs
       (deck gs') `shouldNotBe` (deck gs)
     it "should distribute cards to players" $ do
-      pendingWith "Implement the setupGame function"
+      --pendingWith "Implement the setupGame function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       and (map (\p -> (length $ hand p) == initialCardCount) $ players gs') `shouldBe` True
     it "should remove cards from deck" $ do
-      pendingWith "Implement the setupGame function"
+      --pendingWith "Implement the setupGame function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       length (deck gs') `shouldBe` 79
     it "should put 1 card in discard" $ do
-      pendingWith "Implement the setupGame function"
+      --pendingWith "Implement the setupGame function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       length (d_stack gs') `shouldBe` 1

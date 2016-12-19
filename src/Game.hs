@@ -21,7 +21,7 @@ initGame n = State { players = generateHumanPlayers n,
 -- MY CODES----------------------------------------------------------
 generateHumanPlayers :: Int -> [Player]
 generateHumanPlayers n 
-		| (n > 0) = [HPlayer {name = "Player" ++ show n, hand = [ ]}] ++ generateHumanPlayers (n-1)
+| (n > 0) = [HPlayer {name = "Player" ++ show n, hand = [ ]}] ++ generateHumanPlayers (n-1)
 		| otherwise = [ ]
 ---------------------------------------------------------------------
 
