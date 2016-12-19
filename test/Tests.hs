@@ -55,14 +55,14 @@ shufflerSpecs :: Spec
 shufflerSpecs = describe "Shuffler" $ do
   it "Perform shuffling of cards" $ do
     --pendingWith "Implement shuffleDeck function"
-    let gs = State { players = [ ], deck = fullDeck, d_stack = [ ] }
+    let gs = testState
     gs' <- shuffleDeck gs
     (deck gs') `shouldNotBe` (deck gs)
 
 gameSpecs :: Spec
 gameSpecs = describe "Game" $ do
   describe "initGame" $ do
-
+    it "should create 4 players" $ do
       --pendingWith "Implement the initGame function"
       let gs = initGame numberOfTestPlayers
       length (players gs) `shouldBe` 4
@@ -99,13 +99,13 @@ gameSpecs = describe "Game" $ do
 
   describe "pickNextPlayer" $ do
     it "should pick first player" $ do
-      pendingWith "Implement pickNextPlayer function"
+      --pendingWith "Implement pickNextPlayer function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
       (cur_player gs') `shouldBe` (head $ (players gs'))
     it "should double pick second player" $ do
-      pendingWith "Implement pickNextPlayer function"
+      --pendingWith "Implement pickNextPlayer function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
@@ -220,7 +220,6 @@ gameSpecs = describe "Game" $ do
     it "should take only 1 card from deck" $ do
       pendingWith "Implement drawNCards function"
       let gs = initGame numberOfTestPlayers
->>>>>>> refs/remotes/UPCebu-CMSC176/master
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
       deck_count <- return $ length (deck gs')
@@ -339,9 +338,7 @@ blueOne = Card { color = Blue, value = One }
 blueThree = Card { color = Blue, value = Three }
 
 redOne = Card { color = Red, value = One }
-<<<<<<< HEAD
-johnnyCash = HPlayer { name = "Johnny", hand = [ blueThree, redOne ] }
-=======
+
 redThree = Card { color = Red, value = Three }
 redReverse = Card { color = Red, value = ChDir }
 redWild = Card { color = Red, value = ChCol }
@@ -370,4 +367,4 @@ testState = State { players = [ ]
                   , deck = fullDeck
                   , d_stack = [ ]
                   , cur_player = noPlayer }
->>>>>>> refs/remotes/UPCebu-CMSC176/master
+

@@ -14,24 +14,7 @@ initialCardCount = 7
 initGame :: Int -> State
 
 -- TODO: Implement a method to initialize a new game given n players
-<<<<<<< HEAD
 initGame n = State { players = generateHumanPlayers n,
-                     deck = Common.fullDeck,
-                     d_stack = [ ] }
--- MY CODES----------------------------------------------------------
-generateHumanPlayers :: Int -> [Player]
-generateHumanPlayers n 
-| (n > 0) = [HPlayer {name = "Player" ++ show n, hand = [ ]}] ++ generateHumanPlayers (n-1)
-		| otherwise = [ ]
----------------------------------------------------------------------
-
--- TODO: Implement a method to setup the game
-setupGame :: State -> IO State
-setupGame gs = do
-				curr <- shuffleDeck gs
-				return (dealCards(curr))
-=======
-initGame n = State { players = [ ],
                      e_players = [ ],
                      deck = fullDeck,
                      d_stack = [ ],
@@ -43,7 +26,9 @@ initGameWithPlayers pa = gs' { players = clearHands pa } where
 
 -- TODO: Implement a method to setup the game
 setupGame :: State -> IO State
-setupGame gs = return (gs)
+setupGame gs = do
+				curr <- shuffleDeck gs
+				return (dealCards(curr))
 
 startGame :: State -> IO State
 startGame gs = pickNextAndPlay gs
@@ -226,7 +211,7 @@ getNextPlayer :: State -> Player
 getNextPlayer gs = head $ players gs
 
 pickNextPlayer :: State -> IO State
-pickNextPlayer gs = updateCurPlayer gs $ getNextPlayer gs
+pickNextPlayer gs = updateCurPlayer gs $  getNextPlayer gs
 
 playCurrentPlayer :: State -> (Action, Card)
 playCurrentPlayer gs = useSimpleStrategy gs (topDCard gs) (curHand gs)
@@ -237,4 +222,23 @@ useSimpleStrategy gs dcard hand = (TakeFromDeck, noCard)
 
 
 -- ADD extra codes after this line, so it's easy to rebase or merge code changes in Git --
->>>>>>> refs/remotes/UPCebu-CMSC176/master
+
+-- MY CODES----------------------------------------------------------
+generateHumanPlayers :: Int -> [Player]
+generateHumanPlayers n 
+		| (n > 0) = [HPlayer {name = "Player" ++ show n, hand = [ ]}] ++ generateHumanPlayers (n-1)
+		| otherwise = [ ]
+
+rearrange_players :: State -> State
+rearrange_players state@State{
+players = plyrs,
+e_players = eplayers,
+deck = dck,
+d_stack = dstck,
+cur_player = curplayer
+} = State {players = (tail plyrs) ++ (take 1 plyrs),
+						e_players = eplayers,
+                     deck = dck,
+                     d_stack = dstck,
+                     cur_player = curplayer}
+---------------------------------------------------------------------

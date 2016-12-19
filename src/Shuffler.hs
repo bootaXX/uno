@@ -8,10 +8,12 @@ import Data.List
 shuffleDeck :: State -> IO State
 -- TODO: Implement a random shuffling algorithm
 shuffleDeck state@State{
-players = plyrs, deck = dck, d_stack = dstck} = return State {
+players = plyrs, e_players = eplayers, deck = dck, d_stack = dstck, cur_player = curplayer} = return State {
 players = plyrs,
+e_players = eplayers,
 deck = shuffles seed,
-d_stack = dstck}
+d_stack = dstck,
+cur_player = curplayer}
 
 seed = mkStdGen 1000
 
@@ -23,12 +25,16 @@ shuffles = shuffle' fullDeck 108
 dealCards :: State -> State
 dealCards state@State{
 players = plyrs,
+e_players = eplayers,
 deck = dck,
-d_stack = dstck
+d_stack = dstck,
+cur_player = curplayer
 } = State{
 players = dealp dck plyrs,
+e_players = eplayers,
 deck = dealc dck plyrs,
-d_stack = dstck
+d_stack = setup_discard dstck dck,
+cur_player = curplayer
 }
 
 dealp :: Deck -> [Player] -> [Player]
@@ -38,6 +44,9 @@ dealp (c1:c2:c3:c4:c5:c6:c7:cs) (p:ps) = p{hand=[c1,c2,c3,c4,c5,c6,c7]} : dealp 
 
 dealc :: Deck -> [Player] -> Deck
 dealc [ ] _ = [ ]
-dealc deck [ ] = deck
+dealc deck [ ] = drop 1 deck
 dealc deck (p:ps) = dealc (drop 7 deck) ps
 
+setup_discard :: D_Stack -> Deck -> D_Stack
+setup_discard dstack [ ] = dstack
+setup_discard dstack deck = dstack ++ (take 1 deck)
