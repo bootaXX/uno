@@ -13,7 +13,7 @@ initialCardCount = 7
 
 initGame :: Int -> State
 
--- TODO: Implement a method to initialize a new game given n players
+-- GOOD: Implement a method to initialize a new game given n players
 initGame n = State { players = generateHumanPlayers n,
                      e_players = [ ],
                      deck = fullDeck,
@@ -24,7 +24,7 @@ initGameWithPlayers :: [ Player ] -> State
 initGameWithPlayers pa = gs' { players = clearHands pa } where
   gs' = initGame (length $ pa)
 
--- TODO: Implement a method to setup the game
+-- GOOD: Implement a method to setup the game
 setupGame :: State -> IO State
 setupGame gs = do
 				curr <- shuffleDeck gs
@@ -68,11 +68,11 @@ deckIsEmpty gs = null (deck gs)
 
 -- TODO: Implement this function
 playerHasWon :: State -> Bool
-playerHasWon gs = False
+playerHasWon gs = playerIsOut gs
 
 -- TODO: Implement this function
 playerIsOut :: State -> Bool
-playerIsOut gs = False
+playerIsOut gs = curHand gs == []
 
 reverseAndPlay :: State -> IO State
 reverseAndPlay gs = do
@@ -143,7 +143,7 @@ takeFromHandWithAction card next_action gs = do
   gs' <- takeFromHand card gs
   return (next_action, gs')
 
--- TODO: Implement this function
+-- GOOD: Implement this function
 takeFromHand :: Card -> State -> IO State
 takeFromHand card gs = do
 	cur_player' <- removeFromHand card (cur_player gs)
@@ -154,15 +154,18 @@ takeFromDeck gs = do
   gs' <- drawNCards 1 gs $ cur_player gs
   return (EndTurn, gs')
 
--- TODO: Implement this function
+-- GOOD: Implement this function
 reversePlayers :: State -> IO State
 reversePlayers gs = return (gs{players = reverse (players gs)})
 
--- TODO: Implement this function
+-- GOOD: Implement this function
 drawNCards :: Int -> State -> Player -> IO State
 drawNCards n gs player = do
-	cur_player' <- puttoHand n player (deck gs)
-	return (gs{deck = drawCards n (deck gs), cur_player = cur_player'})
+	gs' <- updateDeck gs $ drop n $ deck gs
+	player' <- updateHand player (hand player ++ take n (deck gs))
+	updatePlayer gs' player player'
+	--cur_player' <- puttoHand n player (deck gs)
+	--return (gs{deck = drawCards n (deck gs), cur_player = cur_player'})
 
 updatePlayer :: State -> Player -> Player -> IO State
 updatePlayer gs p new_p = do
@@ -197,7 +200,7 @@ updateHand player h = return (player { hand = h })
 updateDeck :: State -> Deck -> IO State
 updateDeck gs deck' = return (gs { deck = deck' })
 
--- TODO: Implement this function
+-- GOOD: Implement this function
 reloadDeck :: State -> IO State
 reloadDeck gs = return (gs {d_stack = [topDCard gs], deck = init (d_stack gs)})
 
@@ -210,7 +213,7 @@ updateDiscardS gs d_stack' = return (gs { d_stack = d_stack' })
 updateCurPlayer :: State -> Player -> IO State
 updateCurPlayer gs player = return (gs { cur_player = player })
 
--- TODO: Implement this function
+-- GOOD: Implement this function
 getNextPlayer :: State -> Player
 getNextPlayer gs
 	| checkPlayer (cur_player gs)= head $ players gs
@@ -227,10 +230,13 @@ pickNextPlayer gs = updateCurPlayer gs $  getNextPlayer gs
 playCurrentPlayer :: State -> (Action, Card)
 playCurrentPlayer gs = useSimpleStrategy gs (topDCard gs) (curHand gs)
 
--- TODO: Implement this function
+-- good?: Implement this function
 useSimpleStrategy :: State -> Card -> Hand -> (Action, Card)
-useSimpleStrategy gs dcard hand = (TakeFromDeck, noCard)
-
+useSimpleStrategy gs dcard hand
+	| countCardsByColor (color dcard) hand > 0 = (UseCard, fromJust $ getCardWithColor (color dcard) hand)
+	| valueInHand (value dcard) hand = (UseCard, fromJust $ getCardWithValue (value dcard) hand)
+	| wildcardInHand hand = (UseCard, fromJust $ getWildcard hand)
+	| otherwise = (TakeFromDeck, noCard)
 
 -- ADD extra codes after this line, so it's easy to rebase or merge code changes in Git --
 
@@ -248,7 +254,7 @@ puttoBack :: [a] -> [a]
 puttoBack (c:cs) = cs ++ [c]
 
 puttoDstack :: Card -> Deck -> Deck
-puttoDstack card dstack = [card] ++ dstack
+puttoDstack card dstack = dstack ++ [card]
 
 removeFromHand :: Card -> Player -> IO Player
 removeFromHand card player = return ( player{hand = deleteFromList card (hand player)} )

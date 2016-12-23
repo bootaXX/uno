@@ -119,14 +119,14 @@ gameSpecs = describe "Game" $ do
       gs' <- pickNextPlayer gs'
       (cur_player gs') `shouldBe` (head $ (players gs'))
     it "should declare a round winner" $ do
-      pendingWith "Implement playerIsOut function"
+      --pendingWith "Implement playerIsOut function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
       gs' <- updateCurHand gs' [ ]
       playerIsOut gs' `shouldBe` True
     it "should declare an overall winner" $ do
-      pendingWith "Implement playerHasWon function"
+      --pendingWith "Implement playerHasWon function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
@@ -228,28 +228,28 @@ gameSpecs = describe "Game" $ do
 
   describe "useSimpleStrategy" $ do
     it "should return matching color" $ do
-      pendingWith "Implement useSimpleStrategy function"
+      --pendingWith "Implement useSimpleStrategy function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
       let (action, card) = useSimpleStrategy gs' redOne testHand
       card `shouldBe` redThree
     it "should return matching number" $ do
-      pendingWith "Implement useSimpleStrategy function"
+      --pendingWith "Implement useSimpleStrategy function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
       let (action, card) = useSimpleStrategy gs' greenOne testHand
       card `shouldBe` blueOne
     it "should return a red color change wildcard" $ do
-      pendingWith "Implement useSimpleStrategy function"
+      --pendingWith "Implement useSimpleStrategy function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
       let (action, card) = useSimpleStrategy gs' greenFour testHand
-      card `shouldBe` redWild
+      card `shouldBe` blackWild
     it "should choose take from deck" $ do
-      pendingWith "Implement useSimpleStrategy function"
+      --pendingWith "Implement useSimpleStrategy function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
@@ -258,7 +258,7 @@ gameSpecs = describe "Game" $ do
 
   describe "playCard" $ do
     it "should attack reverse using reverse card" $ do
-      pendingWith "Implement the other tests first"
+      --pendingWith "Implement the other tests first"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
@@ -267,7 +267,7 @@ gameSpecs = describe "Game" $ do
       (action, gs') <- takeAction UseCard redReverse gs'
       action `shouldBe` AttackReverse
     it "should play wildcard" $ do
-      pendingWith "Implement the other tests first"
+      --pendingWith "Implement the other tests first"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
@@ -275,7 +275,7 @@ gameSpecs = describe "Game" $ do
       (action, gs') <- takeAction UseCard redWild gs'
       action `shouldBe` EndTurn
     it "should discard color change card" $ do
-      pendingWith "Implement the other tests first"
+      --pendingWith "Implement the other tests first"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
@@ -292,7 +292,7 @@ gameSpecs = describe "Game" $ do
       (action, gs') <- takeAction UseCard redWild gs'
       black_count `shouldBe` (countCardsByColor Black $ curHand gs')
     it "should take card from hand and act" $ do
-      pendingWith "Implement the other tests first"
+      --pendingWith "Implement the other tests first"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
@@ -301,7 +301,7 @@ gameSpecs = describe "Game" $ do
       (action, gs') <- takeFromHandWithAction c1 EndTurn gs'
       (c1_count - 1) `shouldBe` (countCards (curHand gs') c1)
     it "should put card in discard" $ do
-      pendingWith "Implement the other tests first"
+      --pendingWith "Implement the other tests first"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
@@ -309,14 +309,14 @@ gameSpecs = describe "Game" $ do
       (action, gs') <- takeFromHandWithAction c1 EndTurn gs'
       c1 `shouldBe` (last $ d_stack gs')
     it "should find wildcard" $ do
-      pendingWith "Implement the other tests first"
+      --pendingWith "Implement the other tests first"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
       gs' <- updateCurHand gs' [ blackWild ]
       (cardInCurHand redWild gs') `shouldBe` True
     it "should draw 2 cards" $ do
-      pendingWith "Implement the other tests first"
+      --pendingWith "Implement the other tests first"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
