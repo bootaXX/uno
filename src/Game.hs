@@ -68,7 +68,7 @@ deckIsEmpty gs = null (deck gs)
 
 -- TODO: Implement this function
 playerHasWon :: State -> Bool
-playerHasWon gs = playerIsOut gs
+playerHasWon gs = curHand gs == []
 
 -- TODO: Implement this function
 playerIsOut :: State -> Bool
