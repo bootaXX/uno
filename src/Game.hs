@@ -145,7 +145,9 @@ takeFromHandWithAction card next_action gs = do
 
 -- TODO: Implement this function
 takeFromHand :: Card -> State -> IO State
-takeFromHand card gs = return gs
+takeFromHand card gs = do
+	cur_player' <- removeFromHand card (cur_player gs)
+	return gs{d_stack = puttoDstack card (d_stack gs), cur_player = cur_player'}
 
 takeFromDeck :: State -> IO (Action, State)
 takeFromDeck gs = do
@@ -154,11 +156,13 @@ takeFromDeck gs = do
 
 -- TODO: Implement this function
 reversePlayers :: State -> IO State
-reversePlayers gs = return gs
+reversePlayers gs = return (gs{players = reverse (players gs)})
 
 -- TODO: Implement this function
 drawNCards :: Int -> State -> Player -> IO State
-drawNCards n gs player = return gs
+drawNCards n gs player = do
+	cur_player' <- puttoHand n player (deck gs)
+	return (gs{deck = drawCards n (deck gs), cur_player = cur_player'})
 
 updatePlayer :: State -> Player -> Player -> IO State
 updatePlayer gs p new_p = do
@@ -195,7 +199,7 @@ updateDeck gs deck' = return (gs { deck = deck' })
 
 -- TODO: Implement this function
 reloadDeck :: State -> IO State
-reloadDeck gs = return gs
+reloadDeck gs = return (gs {d_stack = [topDCard gs], deck = init (d_stack gs)})
 
 topDCard :: State -> Card
 topDCard gs = last (d_stack gs)
@@ -208,7 +212,14 @@ updateCurPlayer gs player = return (gs { cur_player = player })
 
 -- TODO: Implement this function
 getNextPlayer :: State -> Player
-getNextPlayer gs = head $ players gs
+getNextPlayer gs
+	| checkPlayer (cur_player gs)= head $ players gs
+	| (cur_player gs) == head (players gs) = head $ tail $ players gs
+	| otherwise = getNextPlayer State { players = puttoBack (players gs),
+                     e_players = e_players gs,
+                     deck = deck gs,
+                     d_stack = d_stack gs,
+                     cur_player =  cur_player gs}
 
 pickNextPlayer :: State -> IO State
 pickNextPlayer gs = updateCurPlayer gs $  getNextPlayer gs
@@ -229,16 +240,30 @@ generateHumanPlayers n
 		| (n > 0) = [HPlayer {name = "Player" ++ show n, hand = [ ]}] ++ generateHumanPlayers (n-1)
 		| otherwise = [ ]
 
-rearrange_players :: State -> State
-rearrange_players state@State{
-players = plyrs,
-e_players = eplayers,
-deck = dck,
-d_stack = dstck,
-cur_player = curplayer
-} = State {players = (tail plyrs) ++ (take 1 plyrs),
-						e_players = eplayers,
-                     deck = dck,
-                     d_stack = dstck,
-                     cur_player = curplayer}
+checkPlayer :: Player -> Bool
+checkPlayer (NoPlayer _) = True
+checkPlayer _ = False
+
+puttoBack :: [a] -> [a]
+puttoBack (c:cs) = cs ++ [c]
+
+puttoDstack :: Card -> Deck -> Deck
+puttoDstack card dstack = [card] ++ dstack
+
+removeFromHand :: Card -> Player -> IO Player
+removeFromHand card player = return ( player{hand = deleteFromList card (hand player)} )
+
+deleteFromList :: (Eq a) => a -> [a] -> [a]
+deleteFromList x xs = delete x xs
+
+drawCards :: Int -> Deck -> Deck
+drawCards 0 deck = deck
+drawCards x deck = drawCards (x-1) (tail deck)
+
+puttoHand :: Int -> Player -> Deck -> IO Player
+puttoHand n player deck = return (player{hand = drawFromDeck n deck})
+
+drawFromDeck :: Int -> Deck -> Hand
+drawFromDeck 0 deck = []
+drawFromDeck n deck = [head deck] ++ drawFromDeck (n-1) (tail deck)
 ---------------------------------------------------------------------

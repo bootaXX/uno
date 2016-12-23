@@ -112,7 +112,7 @@ gameSpecs = describe "Game" $ do
       gs' <- pickNextPlayer gs'
       (cur_player gs') `shouldBe` ((players gs') !! 1)
     it "should turn around and pick first player" $ do
-      pendingWith "Implement pickNextPlayer function"
+      --pendingWith "Implement pickNextPlayer function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- updateCurPlayer gs' $ (players gs') !! 3
@@ -135,7 +135,7 @@ gameSpecs = describe "Game" $ do
 
   describe "reversePlayers" $ do
     it "should reverse at player 0" $ do
-      pendingWith "Implement reversePlayers function"
+      --pendingWith "Implement reversePlayers function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       p3 <- return $ (players gs') !! 3
@@ -144,7 +144,7 @@ gameSpecs = describe "Game" $ do
       gs' <- pickNextPlayer gs'
       p3 `shouldBe` (cur_player gs')
     it "should reverse at player 2" $ do
-      pendingWith "Implement reversePlayers function"
+      --pendingWith "Implement reversePlayers function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       p1 <- return $ (players gs') !! 1
@@ -153,7 +153,7 @@ gameSpecs = describe "Game" $ do
       gs' <- pickNextPlayer gs'
       p1 `shouldBe` (cur_player gs')
     it "should reverse at player 3" $ do
-      pendingWith "Implement reversePlayers function"
+      --pendingWith "Implement reversePlayers function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       p2 <- return $ (players gs') !! 2
@@ -164,7 +164,7 @@ gameSpecs = describe "Game" $ do
 
   describe "reloadDeck" $ do
     it "should reload deck" $ do
-      pendingWith "Implement reloadDeck function"
+      --pendingWith "Implement reloadDeck function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
@@ -172,7 +172,7 @@ gameSpecs = describe "Game" $ do
       gs' <- reloadDeck gs'
       (last $ d_stack gs') `shouldBe` (last testDStack)
     it "should keep only 1 card after reload" $ do
-      pendingWith "Implement reloadDeck function"
+      --pendingWith "Implement reloadDeck function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
@@ -180,7 +180,7 @@ gameSpecs = describe "Game" $ do
       gs' <- reloadDeck gs'
       (length $ d_stack gs') `shouldBe` 1
     it "should move cards from discard to deck on reload" $ do
-      pendingWith "Implement reloadDeck function"
+      --pendingWith "Implement reloadDeck function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
@@ -190,7 +190,7 @@ gameSpecs = describe "Game" $ do
 
   describe "takeFromHand" $ do
     it "should remove from current hand" $ do
-      pendingWith "Implement takeFromHand function"
+      --pendingWith "Implement takeFromHand function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
@@ -199,7 +199,7 @@ gameSpecs = describe "Game" $ do
       (action, gs') <- takeAction UseCard redReverse gs'
       (cardInCurHand redReverse gs') `shouldBe` False
     it "should move to discard hand" $ do
-      pendingWith "Implement takeFromHand function"
+      --pendingWith "Implement takeFromHand function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
@@ -210,7 +210,7 @@ gameSpecs = describe "Game" $ do
 
   describe "takeFromDeck" $ do
     it "should take 1 card and put in hand" $ do
-      pendingWith "Implement drawNCards function"
+      --pendingWith "Implement drawNCards function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
@@ -218,7 +218,7 @@ gameSpecs = describe "Game" $ do
       (action, gs') <- takeFromDeck gs'
       c0 `shouldBe` (last $ curHand gs')
     it "should take only 1 card from deck" $ do
-      pendingWith "Implement drawNCards function"
+      --pendingWith "Implement drawNCards function"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
