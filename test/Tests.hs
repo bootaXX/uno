@@ -283,12 +283,12 @@ gameSpecs = describe "Game" $ do
       (action, gs') <- takeAction UseCard redWild gs'
       (last $ d_stack gs') `shouldBe` redWild
     it "should remove black card" $ do
-      pendingWith "Implement the other tests first"
+      --pendingWith "Implement the other tests first"
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- pickNextPlayer gs'
-      black_count <- return(countCardsByColor Black $ curHand gs')
       gs' <- updateCurHand gs' (curHand gs' ++ [ blackWild ])
+      black_count <- return(countCardsByColor Black $ curHand gs')
       (action, gs') <- takeAction UseCard redWild gs'
       black_count `shouldBe` (countCardsByColor Black $ curHand gs')
     it "should take card from hand and act" $ do
@@ -326,7 +326,7 @@ gameSpecs = describe "Game" $ do
 
   describe "Game..." $ do
     it "should start and end" $ do
-      pendingWith "Implement other functions first, before enabling."
+      --pendingWith "Implement other functions first, before enabling."
       let gs = initGame numberOfTestPlayers
       gs' <- setupGame gs
       gs' <- startGame gs'
